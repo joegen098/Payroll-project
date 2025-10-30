@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payroll Form</title>
+<style>
+  body {
+    background-color: #ffe5e5; /* light red background */
+    font-family: "Poppins", Arial, sans-serif;
+    color: #5a0000;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    text-align: center;
+    background-color: #b30000;
+    color: #fff;
+    padding: 18px 0;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+  }
+
+  .form-box {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(179, 0, 0, 0.25);
+    padding: 35px 50px;
+    width: 65%;
+  }
+
+  h2 {
+    text-align: center;
+    color: #a10000;
+    margin-bottom: 25px;
+  }
+
+  label {
+    display: inline-block;
+    width: 150px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  input {
+    width: 250px;
+    padding: 6px;
+    border: 1px solid #e0a3a3;
+    border-radius: 6px;
+    margin-top: 5px;
+  }
+
+  .form-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .button-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  button {
+    background-color: #b30000;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #660000;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">Employee Payroll Form</div>
+
+  <div class="container">
+    <div class="form-box">
+      <h2>Employee Details</h2>
+
+      <div class="form-row">
+        <label>ID Number:</label>
+        <input type="text" id="idnum">
+      </div>
+
+      <div class="form-row">
+        <label>First Name:</label>
+        <input type="text" id="fname">
+      </div>
+
+      <div class="form-row">
+        <label>Middle Name:</label>
+        <input type="text" id="mname">
+      </div>
+
+      <div class="form-row">
+        <label>Last Name:</label>
+        <input type="text" id="lname">
+      </div>
+
+      <div class="form-row">
+        <label>Position:</label>
+        <input type="text" id="position">
+      </div>
+
+      <div class="form-row">
+        <label>Rate per Day (₱):</label>
+        <input type="number" id="rate">
+      </div>
+
+      <div class="form-row">
+        <label>Days Worked:</label>
+        <input type="number" id="days">
+      </div>
+
+      <div class="button-container">
+        <button onclick="saveData()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function saveData() {
+      const idnum = document.getElementById("idnum").value;
+      const fname = document.getElementById("fname").value;
+      const mname = document.getElementById("mname").value;
+      const lname = document.getElementById("lname").value;
+      const position = document.getElementById("position").value;
+      const rate = parseFloat(document.getElementById("rate").value);
+      const days = parseInt(document.getElementById("days").value);
+
+      if (!idnum || !fname || !lname || !position || isNaN(rate) || isNaN(days)) {
+        alert("Please fill in all fields correctly.");
+        return;
+      }
+
+      const payrollData = { idnum, fname, mname, lname, position, rate, days };
+      localStorage.setItem("payrollData", JSON.stringify(payrollData));
+      window.location.href = "display.html";
+    }
+  </script>
+
+</body>
+</html>

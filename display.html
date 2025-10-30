@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payroll Summary</title>
+<style>
+  body {
+    background-color: #ffe5e5;
+    font-family: "Poppins", Arial, sans-serif;
+    color: #5a0000;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    text-align: center;
+    background-color: #b30000;
+    color: #fff;
+    padding: 18px 0;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+  }
+
+  .output-box {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(179, 0, 0, 0.25);
+    padding: 35px 50px;
+    width: 65%;
+  }
+
+  h2 {
+    text-align: center;
+    color: #a10000;
+    margin-bottom: 25px;
+  }
+
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .label {
+    font-weight: 600;
+  }
+
+  .button-container {
+    text-align: center;
+    margin-top: 25px;
+  }
+
+  button {
+    background-color: #b30000;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #660000;
+  }
+
+  .divider {
+    border-bottom: 1px solid #e0a3a3;
+    margin: 15px 0;
+  }
+
+  .netpay {
+    font-weight: bold;
+    font-size: 18px;
+    color: #b30000;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">Payroll Summary</div>
+
+  <div class="container">
+    <div class="output-box">
+      <h2>Employee Payroll Information</h2>
+
+      <div id="displayArea"></div>
+
+      <div class="button-container">
+        <button onclick="goBack()">Back to Form</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function displayData() {
+      const data = JSON.parse(localStorage.getItem("payrollData"));
+      if (!data) {
+        document.getElementById("displayArea").innerHTML = "<p>No data found.</p>";
+        return;
+      }
+
+      const grossPay = data.rate * data.days;
+      const sss = grossPay * 0.05;
+      const pagibig = grossPay * 0.03;
+      const philhealth = grossPay * 0.02;
+      const tax = grossPay * 0.05;
+      const totalDeduction = sss + pagibig + philhealth + tax;
+      const netPay = grossPay - totalDeduction;
+
+      document.getElementById("displayArea").innerHTML = `
+        <div class="data-row"><span class="label">ID Number:</span> ${data.idnum}</div>
+        <div class="data-row"><span class="label">Full Name:</span> ${data.fname} ${data.mname} ${data.lname}</div>
+        <div class="data-row"><span class="label">Position:</span> ${data.position}</div>
+        <div class="divider"></div>
+        <div class="data-row"><span class="label">Rate per Day:</span> ₱${data.rate.toFixed(2)}</div>
+        <div class="data-row"><span class="label">Days Worked:</span> ${data.days}</div>
+        <div class="data-row"><span class="label">Gross Pay:</span> ₱${grossPay.toFixed(2)}</div>
+        <div class="divider"></div>
+        <div class="data-row"><span class="label">SSS (5%):</span> ₱${sss.toFixed(2)}</div>
+        <div class="data-row"><span class="label">Pag-ibig (3%):</span> ₱${pagibig.toFixed(2)}</div>
+        <div class="data-row"><span class="label">PhilHealth (2%):</span> ₱${philhealth.toFixed(2)}</div>
+        <div class="data-row"><span class="label">Tax (5%):</span> ₱${tax.toFixed(2)}</div>
+        <div class="divider"></div>
+        <div class="data-row"><span class="label">Total Deductions:</span> ₱${totalDeduction.toFixed(2)}</div>
+        <div class="data-row netpay"><span class="label">Net Pay:</span> ₱${netPay.toFixed(2)}</div>
+      `;
+    }
+
+    function goBack() {
+      window.location.href = "main.html";
+    }
+
+    displayData();
+  </script>
+
+</body>
+</html>
